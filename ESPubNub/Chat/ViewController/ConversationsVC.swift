@@ -71,13 +71,13 @@ class ConversationsVC: BaseVC {
                     $0.forEach {
                         print($0.payload)
                         
-                        let formID = $0.payload[rawValue: "formID"] as? String
+                        let fromID = $0.payload[rawValue: "fromID"] as? String
                         let toID = $0.payload[rawValue: "toID"] as? String
                         let timestamp = $0.payload[rawValue: "timestamp"] as? String
                         let timestampDouble = Double(timestamp ?? "0")
                         let message = $0.payload[rawValue: "text"] as? String
                         let channel = $0.channel
-                        self.conversations.append(ConversationData.Conversation.init(lastMessage: Message(formID: formID, message: message, toID: toID, timestamp: timestampDouble, channel: channel)))
+                        self.conversations.append(ConversationData.Conversation.init(lastMessage: Message(fromID: fromID, message: message, toID: toID, timestamp: timestampDouble, channel: channel)))
                     }
                     
                     DispatchQueue.main.async { [weak self] in

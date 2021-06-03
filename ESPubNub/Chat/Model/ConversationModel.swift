@@ -9,16 +9,13 @@ import Foundation
 
 struct ConversationData {
     var conversations: [Conversation]?
-
-  
-    
     struct Conversation {
         let lastMessage: Message?
     }
 }
 
 struct Message {
-    let formID: String?
+    let fromID: String?
     let message: String?
     let toID: String?
     let timestamp: Double?

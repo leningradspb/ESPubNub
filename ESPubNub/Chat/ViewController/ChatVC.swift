@@ -7,6 +7,7 @@
 
 
 import UIKit
+import PubNub
 
 class ChatVC: BaseVC {
     private let tableView = UITableView()
@@ -59,6 +60,7 @@ class ChatVC: BaseVC {
         setupTableView()
         setupInputMessageView()
         loadMessages()
+        setupMessageListener()
 //        setupTapRecognizer(for: view, action: #selector(hideKeyboard))
     }
     
@@ -125,6 +127,7 @@ class ChatVC: BaseVC {
         tableView.register(PartnerSenderCell.self, forCellReuseIdentifier: PartnerSenderCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.contentInset.top = 15
     }
     
     private func setupInputMessageView() {
@@ -182,13 +185,61 @@ class ChatVC: BaseVC {
     }
     
     private func loadMessages() {
-        pubNub.fetchMessageHistory(for: [channelID]) { result in
+        pubNub.fetchMessageHistory(for: [channelID]) { [weak self] result in
+            guard let self = self else { return }
             print(result)
+            result.map {
+                $0.messagesByChannel.values.forEach {
+                    
+                    $0.forEach {
+                        print($0.payload)
+                        
+                        let fromID = $0.payload[rawValue: "fromID"] as? String
+                        let toID = $0.payload[rawValue: "toID"] as? String
+                        let timestamp = $0.payload[rawValue: "timestamp"] as? String
+                        let timestampDouble = Double(timestamp ?? "0")
+                        let message = $0.payload[rawValue: "text"] as? String
+                        let channel = $0.channel
+                        self.messages.append(Message(fromID: fromID, message: message, toID: toID, timestamp: timestampDouble, channel: channel))
+                    }
+                    
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self = self else { return }
+                        self.tableView.reloadData()
+                        if !self.messages.isEmpty {
+                            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+                        }
+                    }
+                }
+            }
         }
     }
     
-    private func setupMessagesListener() {
-    
+    private func setupMessageListener() {
+        // Create a new listener instance
+        let listener = SubscriptionListener(queue: .main)
+//        listener.didReceiveMessage = { message in
+//            print(message)
+//        }
+        // Add listener event callbacks
+        listener.didReceiveSubscription = { event in
+          switch event {
+          case let .messageReceived(message):
+            print("Message Received: \(message) Publisher: \(message.publisher ?? "defaultUUID")")
+            
+          case let .connectionStatusChanged(status):
+            print("Status Received: \(status)")
+          case let .presenceChanged(presence):
+            print("Presence Received: \(presence)")
+          case let .subscribeError(error):
+            print("Subscription Error \(error)")
+          default:
+            break
+          }
+        }
+
+        // Start receiving subscription events
+        pubNub.add(listener)
     }
     
     @objc private func sendMessage() {
@@ -231,7 +282,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row < messages.count {
             let message = messages[indexPath.row]
             
-            if message.formID == myID {
+            if message.fromID == myID {
                 let cell = tableView.dequeueReusableCell(withIdentifier: MeSenderCell.identifier, for: indexPath) as! MeSenderCell
                 cell.updateMeSenderCell(with: message.message ?? "")
                 return cell
@@ -326,7 +377,7 @@ extension ChatVC {
                 }
                 
                 if _kbSize.height != 0 {
-                    self.view.frame.origin.y = -_kbSize.height + (self.tabBarController?.tabBar.bounds.height)!
+                    self.view.frame.origin.y = -_kbSize.height 
                 } else {
                     self.view.frame.origin.y = 0
                 }
