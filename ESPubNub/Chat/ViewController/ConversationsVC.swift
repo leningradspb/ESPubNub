@@ -14,6 +14,9 @@ class ConversationsVC: BaseVC {
         setupTableView()
         observeConversations()
         loadConversations()
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                    self.sendMessage()
+//                }
     }
     
     private func setupNavigationBar() {
@@ -51,7 +54,6 @@ class ConversationsVC: BaseVC {
             case let .success(response):
                 print("succeeded: \(response)")
                 response.memberships.forEach {
-                    print($0.channelMetadataId)
                     chatIDs.append($0.channelMetadataId)
                 }
                 self.loadLastMessageBy(chatIDs: chatIDs)
@@ -65,6 +67,17 @@ class ConversationsVC: BaseVC {
     private func loadLastMessageBy(chatIDs: [String]) {
         pubNub.fetchMessageHistory(for: chatIDs, includeActions: false, includeMeta: false, includeUUID: false, includeMessageType: false, page: PubNubBoundedPageBase(start: nil, end: nil, limit: 1) , custom: .init()) { (result) in
             print(result)
+            result.map {
+                $0.messagesByChannel.values.forEach {
+                    
+                    $0.forEach {
+                        print($0.payload)
+                        print($0.payload[rawValue: "text"])
+                        
+//                        COdableStruct(from: $0.payload)
+                    }
+                }
+            }
         }
     }
     
@@ -76,6 +89,19 @@ class ConversationsVC: BaseVC {
 //        let model = ChatVC.ChatInitModel(partnerID: pairID, autoID: nil, path: nil)
 //        let vc = ChatVC(model: model)
 //        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    //TODO; delete
+    private func sendMessage() {
+        
+        pubNub.publish(channel: "channel_2", message: ["text": "channel 2 message"] ) { result in
+            switch result {
+            case let .success(response):
+                print("succeeded: \(response.description)")
+                
+            case let .failure(error):
+                print("failed: \(error.localizedDescription)")
+            }
+        }
     }
 }
 
