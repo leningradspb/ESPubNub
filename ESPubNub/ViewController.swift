@@ -24,11 +24,15 @@ class ViewController: UIViewController {
         config.uuid = "3dcde054-17ec-48ba-88f9-93fca230ca8a"
         pubNub = PubNub(configuration: config)
         
+        pubNub.fetchMessageHistory(for: ["my_channel"]) { result in
+            print(result)
+        }
+        
         setupMessageListener()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.sendMessage()
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            self.sendMessage()
+//        }
 //        setupPubNubConfig()
     }
     
