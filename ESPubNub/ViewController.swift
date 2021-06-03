@@ -20,10 +20,9 @@ class ViewController: UIViewController {
         subscribeOnChannel()
         setupMessageListener()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.sendMessage()
-        }
-//        setupPubNubConfig()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            self.sendMessage()
+//        }
     }
     
     private func setupPubNubConfig() {
@@ -38,8 +37,55 @@ class ViewController: UIViewController {
     
     private func loadMessages() {
         pubNub.fetchMessageHistory(for: ["my_channel"]) { result in
+//            print(result)
+        }
+        
+        pubNub.fetchMemberships(uuid: "3dcde054-17ec-48ba-88f9-93fca230ca8a") { (result) in
+//            print(result)
+        }
+        
+        pubNub.fetchMessageHistory(for: ["my_channel"], includeActions: false, includeMeta: false, includeUUID: false, includeMessageType: false, page: PubNubBoundedPageBase(start: nil, end: nil, limit: 1) , custom: .init()) { (result) in
             print(result)
         }
+        
+        
+        let newMembership = PubNubMembershipMetadataBase(
+            uuidMetadataId: "3dcde054-17ec-48ba-88f9-93fca230ca8a", channelMetadataId: "channel_2"
+        )
+        
+//        pubNub.setMemberships(
+//          uuid: newMembership.uuidMetadataId,
+//          channels: [newMembership]
+//        ) { result in
+//          switch result {
+//          case let .success(response):
+//            print("The channel memberships for the uuid \(response.memberships)")
+//            if let nextPage = response.next {
+//              print("The next page used for pagination: \(nextPage)")
+//            }
+//          case let .failure(error):
+//            print("Update Memberships request failed with error: \(error.localizedDescription)")
+//          }
+//        }
+        
+//        let newMembership = PubNubMembershipMetadataBase(
+//          uuidMetadataId: "3dcde054-17ec-48ba-88f9-93fca230ca8a", channelMetadataId: "my_channel"
+//        )
+//        pubNub.setMemberships(
+//            uuid: newMembership.channelMetadataId,
+//            channels: [newMembership]
+//        ) { result in
+//          switch result {
+//          case let .success(response):
+//            print("The channel memberships for the uuid \(response.memberships)")
+//            if let nextPage = response.next {
+//              print("The next page used for pagination: \(nextPage)")
+//            }
+//          case let .failure(error):
+//            print("Update Memberships request failed with error: \(error.localizedDescription)")
+//          }
+//        }
+
     }
     
     private func setupMessageListener() {
@@ -70,7 +116,7 @@ class ViewController: UIViewController {
     
     private func sendMessage() {
         
-        pubNub.publish(channel: "my_channel", message: ["text": "Hello World!"] ){ result in
+        pubNub.publish(channel: "my_channel", message: ["text": "!!!!Hello World!"] ){ result in
             switch result {
             case let .success(response):
                 print("succeeded: \(response.description)")
