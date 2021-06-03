@@ -1,10 +1,11 @@
-/*
-import UIKit
 
-class ConversationsVC: UIViewController {
+import UIKit
+import PubNub
+
+class ConversationsVC: BaseVC {
     private let tableView = UITableView()
 //    private var messages: [MessagesWithInterlocutor]?
-    private var conversations: [SnapshotConversation.Conversation] = []
+    private var conversations: [ConversationData.Conversation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -12,6 +13,7 @@ class ConversationsVC: UIViewController {
         setupNavigationBar()
         setupTableView()
         observeConversations()
+        loadConversations()
     }
     
     private func setupNavigationBar() {
@@ -39,34 +41,41 @@ class ConversationsVC: UIViewController {
     }
     
     private func observeConversations() {
-        self.reference.child(ReferenceKeys.conversations).child(myID!).observe(.value) { [weak self] snapshot in
-            guard let self = self else { return }
-            let conversations = SnapshotConversation.init(with: snapshot)?.conversations
-            
-            if let conversations = conversations {
-                self.conversations = conversations.sorted { (m1, m2) -> Bool in
-                    if let t1 = m1.lastMessage?.timestamp, let t2 = m2.lastMessage?.timestamp {
-                        return t1 > t2
-                    } else {
-                        return false
-                    }
+      
+    }
+    
+    private func loadConversations() {
+        var chatIDs: [String] = []
+        pubNub.fetchMemberships(uuid: "3dcde054-17ec-48ba-88f9-93fca230ca8a") { (result) in
+            switch result {
+            case let .success(response):
+                print("succeeded: \(response)")
+                response.memberships.forEach {
+                    print($0.channelMetadataId)
+                    chatIDs.append($0.channelMetadataId)
                 }
+                self.loadLastMessageBy(chatIDs: chatIDs)
                 
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+            case let .failure(error):
+                print("failed: \(error.localizedDescription)")
             }
         }
     }
     
+    private func loadLastMessageBy(chatIDs: [String]) {
+        pubNub.fetchMessageHistory(for: chatIDs, includeActions: false, includeMeta: false, includeUUID: false, includeMessageType: false, page: PubNubBoundedPageBase(start: nil, end: nil, limit: 1) , custom: .init()) { (result) in
+            print(result)
+        }
+    }
+    
     private func showChat(by index: Int) {
-        let conversation = conversations[index]
-        
-        let pairID = conversation.user?.userID ?? ""
-        
-        let model = ChatVC.ChatInitModel(partnerID: pairID, autoID: nil, path: nil)
-        let vc = ChatVC(model: model)
-        self.navigationController?.pushViewController(vc, animated: true)
+//        let conversation = conversations[index]
+//
+//        let pairID = conversation.user?.userID ?? ""
+//
+//        let model = ChatVC.ChatInitModel(partnerID: pairID, autoID: nil, path: nil)
+//        let vc = ChatVC(model: model)
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -93,4 +102,4 @@ extension ConversationsVC: UITableViewDelegate, UITableViewDataSource {
         showChat(by: indexPath.row)
     }
 }
-*/
+

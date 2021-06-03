@@ -16,32 +16,18 @@ class ViewController: BaseVC {
         loadMessages()
         subscribeOnChannel()
         setupMessageListener()
-        loadConversations()
+        
+        
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 //            self.sendMessage()
 //        }
     }
     
-  
-    
     private func subscribeOnChannel() {
         pubNub.subscribe(to: ["my_channel"])
     }
     
-    private func loadConversations() {
-        pubNub.fetchMemberships(uuid: "3dcde054-17ec-48ba-88f9-93fca230ca8a") { (result) in
-            switch result {
-            case let .success(response):
-                print("succeeded: \(response)")
-                response.memberships.forEach {
-                    print($0.channelMetadataId)
-                }
-                
-            case let .failure(error):
-                print("failed: \(error.localizedDescription)")
-            }
-        }
-    }
+  
     
     private func loadMessages() {
         pubNub.fetchMessageHistory(for: ["my_channel"]) { result in
@@ -52,9 +38,7 @@ class ViewController: BaseVC {
 //            print(result)
         }
         
-        pubNub.fetchMessageHistory(for: ["my_channel"], includeActions: false, includeMeta: false, includeUUID: false, includeMessageType: false, page: PubNubBoundedPageBase(start: nil, end: nil, limit: 1) , custom: .init()) { (result) in
-            print(result)
-        }
+       
         
         
         let newMembership = PubNubMembershipMetadataBase(

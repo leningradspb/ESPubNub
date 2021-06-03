@@ -1,5 +1,6 @@
-/*
+
 import UIKit
+import SnapKit
 
 class ConversationCell: UITableViewCell {
     private let backgroundGreyView = UIView()
@@ -100,14 +101,14 @@ class ConversationCell: UITableViewCell {
         lastMessageLabel.contentMode = .bottom
     }
     
-    func updateConversationCell(with model: SnapshotConversation.Conversation) {
-        nameLabel.text = model.user?.nickName
+    func updateConversationCell(with model: ConversationData.Conversation) {
+        nameLabel.text = "model.user?.nickName"
         lastMessageLabel.text = model.lastMessage?.message
 //        print("last = \(model)")
         
-        if let urlString = model.user?.userImageURL, let url = URL(string: urlString) {
-            profileImageView.kf.setImage(with: url)
-        }
+//        if let urlString = model.user?.userImageURL, let url = URL(string: urlString) {
+//            profileImageView.kf.setImage(with: url)
+//        }
         
         if let seconds = model.lastMessage?.timestamp {
             let timestampDate = Date(timeIntervalSince1970: TimeInterval(seconds))
@@ -138,4 +139,4 @@ class ConversationCell: UITableViewCell {
         let isRead: Bool?
     }
 }
-*/
+
