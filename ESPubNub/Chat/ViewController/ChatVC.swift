@@ -21,20 +21,6 @@ class ChatVC: BaseVC {
     private let userImage = UIImageView()
     private let userNickName = UILabel()
     
-    private var isNeedCreateConversation = false
-    
-//    private var partnerName: String?
-//    private var partnerImageURL: String? {
-//        didSet {
-//            if let url = URL(string: partnerImageURL ?? "") {
-//                DispatchQueue.main.async { [weak self] in
-////                    self?.userImage.kf.setImage(with: url)
-//                    self?.userNickName.text = self?.partnerName
-//                }
-//            }
-//        }
-//    }
-    
     private var partnerID: String {
         model.partnerID
     }
