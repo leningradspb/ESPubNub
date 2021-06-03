@@ -102,7 +102,7 @@ class ConversationCell: UITableViewCell {
     }
     
     func updateConversationCell(with model: ConversationData.Conversation) {
-        nameLabel.text = "model.user?.nickName"
+        nameLabel.text = "Nick Name"
         lastMessageLabel.text = model.lastMessage?.message
 //        print("last = \(model)")
         

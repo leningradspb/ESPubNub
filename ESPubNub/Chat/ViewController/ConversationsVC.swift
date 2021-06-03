@@ -49,7 +49,8 @@ class ConversationsVC: BaseVC {
     
     private func loadConversations() {
         var chatIDs: [String] = []
-        pubNub.fetchMemberships(uuid: "3dcde054-17ec-48ba-88f9-93fca230ca8a") { (result) in
+        pubNub.fetchMemberships(uuid: "3dcde054-17ec-48ba-88f9-93fca230ca8a") { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case let .success(response):
                 print("succeeded: \(response)")
@@ -65,7 +66,8 @@ class ConversationsVC: BaseVC {
     }
     
     private func loadLastMessageBy(chatIDs: [String]) {
-        pubNub.fetchMessageHistory(for: chatIDs, includeActions: false, includeMeta: false, includeUUID: false, includeMessageType: false, page: PubNubBoundedPageBase(start: nil, end: nil, limit: 1) , custom: .init()) { (result) in
+        pubNub.fetchMessageHistory(for: chatIDs, includeActions: false, includeMeta: false, includeUUID: false, includeMessageType: false, page: PubNubBoundedPageBase(start: nil, end: nil, limit: 1) , custom: .init()) { [weak self] result in
+            guard let self = self else { return }
             print(result)
             result.map {
                 $0.messagesByChannel.values.forEach {
@@ -73,8 +75,17 @@ class ConversationsVC: BaseVC {
                     $0.forEach {
                         print($0.payload)
                         print($0.payload[rawValue: "text"])
-                        
+                        let formID = $0.payload[rawValue: "formID"] as? String
+                        let toID = $0.payload[rawValue: "toID"] as? String
+                        let timestamp = $0.payload[rawValue: "timestamp"] as? String
+                        let timestampDouble = Double(timestamp ?? "0")
+                        let message = $0.payload[rawValue: "text"] as? String
+                        self.conversations.append(ConversationData.Conversation.init(lastMessage: Message(formID: formID, message: message, toID: toID, timestamp: timestampDouble)))
 //                        COdableStruct(from: $0.payload)
+                    }
+                    
+                    DispatchQueue.main.async { [weak self] in
+                        self?.tableView.reloadData()
                     }
                 }
             }
@@ -92,8 +103,9 @@ class ConversationsVC: BaseVC {
     }
     //TODO; delete
     private func sendMessage() {
-        
-        pubNub.publish(channel: "channel_2", message: ["text": "channel 2 message"] ) { result in
+        let timestamp: Double = Date().timeIntervalSince1970
+        let timestampString: String = String(format: "%f", timestamp)
+        pubNub.publish(channel: "channel_2", message: ["text": "channel 2 message new", "timestamp": timestampString, "fromID": myID, "toID": "someID"] ) { result in
             switch result {
             case let .success(response):
                 print("succeeded: \(response.description)")

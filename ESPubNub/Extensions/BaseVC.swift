@@ -11,6 +11,10 @@ import PubNub
 class BaseVC: UIViewController {
     var pubNub: PubNub!
     
+    var myID: String {
+        "3dcde054-17ec-48ba-88f9-93fca230ca8a"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
