@@ -49,11 +49,32 @@ class ConversationsVC: BaseVC {
                 response.memberships.forEach {
                     chatIDs.append($0.channelMetadataId)
                 }
+                if chatIDs.isEmpty {
+                    self.createMembership()
+                    return
+                }
                 self.pubNub.subscribe(to: chatIDs)
                 self.loadLastMessageBy(chatIDs: chatIDs)
                 
             case let .failure(error):
                 print("failed: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func createMembership() {
+        let newMembership = PubNubMembershipMetadataBase(uuidMetadataId: "3dcde054-17ec-48ba-88f9-93fca230ca8a", channelMetadataId: "channel_3")
+        
+        pubNub.setMemberships(uuid: newMembership.uuidMetadataId, channels: [newMembership]) { [weak self] result in
+            switch result {
+            case let .success(response):
+                print("The channel memberships for the uuid \(response.memberships)")
+                self?.loadConversations()
+                if let nextPage = response.next {
+                    print("The next page used for pagination: \(nextPage)")
+                }
+            case let .failure(error):
+                print("Update Memberships request failed with error: \(error.localizedDescription)")
             }
         }
     }
