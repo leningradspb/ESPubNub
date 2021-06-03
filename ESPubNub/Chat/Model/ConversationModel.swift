@@ -10,7 +10,7 @@ import Foundation
 struct ConversationData {
     var conversations: [Conversation]?
     struct Conversation {
-        let lastMessage: Message?
+        var lastMessage: Message?
     }
 }
 

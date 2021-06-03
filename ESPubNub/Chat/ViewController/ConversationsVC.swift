@@ -13,6 +13,7 @@ class ConversationsVC: BaseVC {
         setupTableView()
         observeConversations()
         loadConversations()
+        setupMessageListener()
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 //                    self.sendMessage()
 //                }
@@ -53,12 +54,51 @@ class ConversationsVC: BaseVC {
                 response.memberships.forEach {
                     chatIDs.append($0.channelMetadataId)
                 }
+                self.pubNub.subscribe(to: chatIDs)
                 self.loadLastMessageBy(chatIDs: chatIDs)
                 
             case let .failure(error):
                 print("failed: \(error.localizedDescription)")
             }
         }
+    }
+    
+    private func setupMessageListener() {
+        // Create a new listener instance
+        let listener = SubscriptionListener(queue: .main)
+//        listener.didReceiveMessage = { message in
+//            print(message)
+//        }
+        // Add listener event callbacks
+        listener.didReceiveSubscription = { [weak self] event in
+            guard let self = self else { return }
+          switch event {
+          case let .messageReceived(message):
+            print("Message Received: \(message) Publisher: \(message.publisher ?? "defaultUUID")")
+            let timestamp = message.payload[rawValue: "timestamp"] as? String
+            let timestampDouble = Double(timestamp ?? "0")
+            let newMessage = Message(fromID: message.payload[rawValue: "fromID"] as? String, message: message.payload[rawValue: "text"] as? String, toID: message.payload[rawValue: "toID"] as? String, timestamp: timestampDouble, channel: message.channel)
+            if self.conversations.contains(where: { $0.lastMessage?.channel == message.channel }) {
+                if let index = self.conversations.firstIndex(where: { $0.lastMessage?.channel == message.channel }) {
+                    self.conversations[index].lastMessage = newMessage
+                }
+            } else {
+                self.conversations.append(ConversationData.Conversation(lastMessage: newMessage))
+            }
+            self.tableView.reloadData()
+          case let .connectionStatusChanged(status):
+            print("Status Received: \(status)")
+          case let .presenceChanged(presence):
+            print("Presence Received: \(presence)")
+          case let .subscribeError(error):
+            print("Subscription Error \(error)")
+          default:
+            break
+          }
+        }
+
+        // Start receiving subscription events
+        pubNub.add(listener)
     }
     
     private func loadLastMessageBy(chatIDs: [String]) {
