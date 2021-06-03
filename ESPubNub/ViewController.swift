@@ -11,25 +11,13 @@ import PubNub
 class ViewController: UIViewController {
     
     private var pubNub: PubNub!
-//    {
-//        var config = PubNubConfiguration(publishKey: "pub-c-f8a06059-fb89-4b42-9e96-63f6211354a1", subscribeKey: "sub-c-3293f7fe-c44b-11eb-9292-4e51a9db8267")
-//        config.uuid = "3dcde054-17ec-48ba-88f9-93fca230ca8a"
-//        let pubNub = PubNub(configuration: config)
-//        return pubNub
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        var config = PubNubConfiguration(publishKey: "pub-c-f8a06059-fb89-4b42-9e96-63f6211354a1", subscribeKey: "sub-c-3293f7fe-c44b-11eb-9292-4e51a9db8267")
-        config.uuid = "3dcde054-17ec-48ba-88f9-93fca230ca8a"
-        pubNub = PubNub(configuration: config)
         
-        pubNub.fetchMessageHistory(for: ["my_channel"]) { result in
-            print(result)
-        }
-        
-        pubNub.subscribe(to: ["my_channel"])
-        
+        setupPubNubConfig()
+        loadMessages()
+        subscribeOnChannel()
         setupMessageListener()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -38,18 +26,28 @@ class ViewController: UIViewController {
 //        setupPubNubConfig()
     }
     
-//    private func setupPubNubConfig() {
-//        var config = PubNubConfiguration(publishKey: "pub-c-fdd20a63-fd16-4a8f-930d-6cb72eb6d916", subscribeKey: "sub-c-60714650-c300-11eb-8a3a-220055b20f11")
-//        config.uuid = "3dcde054-17ec-48ba-88f9-93fca230ca8a"
-//        let pubNub = PubNub(configuration: config)
-//    }
+    private func setupPubNubConfig() {
+        var config = PubNubConfiguration(publishKey: "pub-c-f8a06059-fb89-4b42-9e96-63f6211354a1", subscribeKey: "sub-c-3293f7fe-c44b-11eb-9292-4e51a9db8267")
+        config.uuid = "3dcde054-17ec-48ba-88f9-93fca230ca8a"
+        pubNub = PubNub(configuration: config)
+    }
+    
+    private func subscribeOnChannel() {
+        pubNub.subscribe(to: ["my_channel"])
+    }
+    
+    private func loadMessages() {
+        pubNub.fetchMessageHistory(for: ["my_channel"]) { result in
+            print(result)
+        }
+    }
     
     private func setupMessageListener() {
         // Create a new listener instance
         let listener = SubscriptionListener(queue: .main)
-        listener.didReceiveMessage = { message in
-            print(message)
-        }
+//        listener.didReceiveMessage = { message in
+//            print(message)
+//        }
         // Add listener event callbacks
         listener.didReceiveSubscription = { event in
           switch event {
