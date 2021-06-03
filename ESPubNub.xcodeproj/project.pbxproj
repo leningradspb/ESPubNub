@@ -19,6 +19,9 @@
 		26CAFCDA26691AF0006F1AB8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CAFCD926691AF0006F1AB8 /* Extensions.swift */; };
 		26CAFCDE26691B01006F1AB8 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CAFCDD26691B01006F1AB8 /* BaseVC.swift */; };
 		26CAFCE126691C1E006F1AB8 /* ConversationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CAFCE026691C1E006F1AB8 /* ConversationModel.swift */; };
+		26CAFCE726693851006F1AB8 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CAFCE626693851006F1AB8 /* ChatVC.swift */; };
+		26CAFCEA2669389D006F1AB8 /* MeSenderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CAFCE92669389D006F1AB8 /* MeSenderCell.swift */; };
+		26CAFCED266938B8006F1AB8 /* PartnerSenderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CAFCEC266938B8006F1AB8 /* PartnerSenderCell.swift */; };
 		4F37492AA60AB06E28E4AA95 /* Pods_ESPubNub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA45473A6BF7764A56C6F32F /* Pods_ESPubNub.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +39,9 @@
 		26CAFCD926691AF0006F1AB8 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		26CAFCDD26691B01006F1AB8 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		26CAFCE026691C1E006F1AB8 /* ConversationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModel.swift; sourceTree = "<group>"; };
+		26CAFCE626693851006F1AB8 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
+		26CAFCE92669389D006F1AB8 /* MeSenderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeSenderCell.swift; sourceTree = "<group>"; };
+		26CAFCEC266938B8006F1AB8 /* PartnerSenderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSenderCell.swift; sourceTree = "<group>"; };
 		71DC489BD2DF0CE5387100B4 /* Pods-ESPubNub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESPubNub.debug.xcconfig"; path = "Target Support Files/Pods-ESPubNub/Pods-ESPubNub.debug.xcconfig"; sourceTree = "<group>"; };
 		B8369E1B0C37BCE57E364EA9 /* Pods-ESPubNub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESPubNub.release.xcconfig"; path = "Target Support Files/Pods-ESPubNub/Pods-ESPubNub.release.xcconfig"; sourceTree = "<group>"; };
 		EA45473A6BF7764A56C6F32F /* Pods_ESPubNub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESPubNub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +74,8 @@
 			isa = PBXGroup;
 			children = (
 				261A5A3F26690CC8005E16A2 /* ConversationCell.swift */,
+				26CAFCE92669389D006F1AB8 /* MeSenderCell.swift */,
+				26CAFCEC266938B8006F1AB8 /* PartnerSenderCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -76,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				261A5A3C26690CA7005E16A2 /* ConversationsVC.swift */,
+				26CAFCE626693851006F1AB8 /* ChatVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -268,13 +277,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26CAFCE726693851006F1AB8 /* ChatVC.swift in Sources */,
 				262F00B42668D3F600FAF06F /* ViewController.swift in Sources */,
 				26CAFCDA26691AF0006F1AB8 /* Extensions.swift in Sources */,
 				262F00B02668D3F600FAF06F /* AppDelegate.swift in Sources */,
 				262F00B22668D3F600FAF06F /* SceneDelegate.swift in Sources */,
 				261A5A3D26690CA7005E16A2 /* ConversationsVC.swift in Sources */,
+				26CAFCEA2669389D006F1AB8 /* MeSenderCell.swift in Sources */,
 				26CAFCDE26691B01006F1AB8 /* BaseVC.swift in Sources */,
 				26CAFCE126691C1E006F1AB8 /* ConversationModel.swift in Sources */,
+				26CAFCED266938B8006F1AB8 /* PartnerSenderCell.swift in Sources */,
 				261A5A4026690CC8005E16A2 /* ConversationCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
