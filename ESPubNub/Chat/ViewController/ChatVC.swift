@@ -17,7 +17,7 @@ class ChatVC: BaseVC {
     private let messageTextView = UITextView()
     private var model: ChatInitModel!
     private var messages: [Message] = []
-    private let placeholder = "Введите текст"
+    private let placeholder = "Enter message"
     private let userImage = UIImageView()
     private let userNickName = UILabel()
     
@@ -61,6 +61,7 @@ class ChatVC: BaseVC {
         setupInputMessageView()
         loadMessages()
         setupMessageListener()
+        subscribeOnChannel()
 //        setupTapRecognizer(for: view, action: #selector(hideKeyboard))
     }
     
@@ -205,14 +206,19 @@ class ChatVC: BaseVC {
                     
                     DispatchQueue.main.async { [weak self] in
                         guard let self = self else { return }
-                        self.tableView.reloadData()
-                        if !self.messages.isEmpty {
-                            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
-                        }
+                        self.reloadTableAndScrollToBottom()
+//                        self.tableView.reloadData()
+//                        if !self.messages.isEmpty {
+//                            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+//                        }
                     }
                 }
             }
         }
+    }
+    
+    private func subscribeOnChannel() {
+        pubNub.subscribe(to: [model.channelID])
     }
     
     private func setupMessageListener() {
@@ -222,11 +228,14 @@ class ChatVC: BaseVC {
 //            print(message)
 //        }
         // Add listener event callbacks
-        listener.didReceiveSubscription = { event in
+        listener.didReceiveSubscription = { [weak self] event in
           switch event {
           case let .messageReceived(message):
             print("Message Received: \(message) Publisher: \(message.publisher ?? "defaultUUID")")
-            
+            let timestamp = message.payload[rawValue: "timestamp"] as? String
+            let timestampDouble = Double(timestamp ?? "0")
+            self?.messages.append(Message(fromID: message.payload[rawValue: "fromID"] as? String, message: message.payload[rawValue: "text"] as? String, toID: message.payload[rawValue: "toID"] as? String, timestamp: timestampDouble, channel: message.channel))
+            self?.reloadTableAndScrollToBottom()
           case let .connectionStatusChanged(status):
             print("Status Received: \(status)")
           case let .presenceChanged(presence):
@@ -242,14 +251,26 @@ class ChatVC: BaseVC {
         pubNub.add(listener)
     }
     
+    private func reloadTableAndScrollToBottom() {
+        tableView.reloadData()
+        if !messages.isEmpty {
+            tableView.scrollToRow(at: IndexPath(row: messages.count - 1, section: 0), at: .bottom, animated: true)
+        }
+    }
+    
     @objc private func sendMessage() {
         let timestamp: Double = Date().timeIntervalSince1970
         let timestampString: String = String(format: "%f", timestamp)
-        pubNub.publish(channel: model.channelID, message: ["text": messageTextView.text, "timestamp": timestampString, "fromID": myID, "toID": "someID"] ) { result in
+        pubNub.publish(channel: model.channelID, message: ["text": messageTextView.text, "timestamp": timestampString, "fromID": myID, "toID": "someID"] ) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case let .success(response):
                 print("succeeded: \(response.description)")
-                
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.messageTextView.text = ""
+                    self.messageTextView.endEditing(true)
+                }
             case let .failure(error):
                 print("failed: \(error.localizedDescription)")
             }
@@ -268,6 +289,10 @@ class ChatVC: BaseVC {
     struct ChatInitModel {
         let partnerID: String
         let channelID: String
+    }
+    
+    deinit {
+        pubNub.unsubscribeAll()
     }
 
 }
