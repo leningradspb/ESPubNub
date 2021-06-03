@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		262F00B72668D3F600FAF06F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 262F00B52668D3F600FAF06F /* Main.storyboard */; };
 		262F00B92668D3F700FAF06F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 262F00B82668D3F700FAF06F /* Assets.xcassets */; };
 		262F00BC2668D3F700FAF06F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 262F00BA2668D3F700FAF06F /* LaunchScreen.storyboard */; };
+		262F00CB2668D58900FAF06F /* PubNub in Frameworks */ = {isa = PBXBuildFile; productRef = 262F00CA2668D58900FAF06F /* PubNub */; };
+		4F37492AA60AB06E28E4AA95 /* Pods_ESPubNub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA45473A6BF7764A56C6F32F /* Pods_ESPubNub.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,9 @@
 		262F00B82668D3F700FAF06F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		262F00BB2668D3F700FAF06F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		262F00BD2668D3F700FAF06F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		71DC489BD2DF0CE5387100B4 /* Pods-ESPubNub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESPubNub.debug.xcconfig"; path = "Target Support Files/Pods-ESPubNub/Pods-ESPubNub.debug.xcconfig"; sourceTree = "<group>"; };
+		B8369E1B0C37BCE57E364EA9 /* Pods-ESPubNub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESPubNub.release.xcconfig"; path = "Target Support Files/Pods-ESPubNub/Pods-ESPubNub.release.xcconfig"; sourceTree = "<group>"; };
+		EA45473A6BF7764A56C6F32F /* Pods_ESPubNub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESPubNub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +36,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				262F00CB2668D58900FAF06F /* PubNub in Frameworks */,
+				4F37492AA60AB06E28E4AA95 /* Pods_ESPubNub.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +49,8 @@
 			children = (
 				262F00AE2668D3F600FAF06F /* ESPubNub */,
 				262F00AD2668D3F600FAF06F /* Products */,
+				3BA704B9D1891B65A2EC1051 /* Pods */,
+				B18269D9D1906749DF90B2D2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +76,23 @@
 			path = ESPubNub;
 			sourceTree = "<group>";
 		};
+		3BA704B9D1891B65A2EC1051 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				71DC489BD2DF0CE5387100B4 /* Pods-ESPubNub.debug.xcconfig */,
+				B8369E1B0C37BCE57E364EA9 /* Pods-ESPubNub.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		B18269D9D1906749DF90B2D2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA45473A6BF7764A56C6F32F /* Pods_ESPubNub.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,15 +100,20 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 262F00C02668D3F700FAF06F /* Build configuration list for PBXNativeTarget "ESPubNub" */;
 			buildPhases = (
+				CBE4D3AA08139C85FCC73F94 /* [CP] Check Pods Manifest.lock */,
 				262F00A82668D3F600FAF06F /* Sources */,
 				262F00A92668D3F600FAF06F /* Frameworks */,
 				262F00AA2668D3F600FAF06F /* Resources */,
+				BBEFBB8E2B47A6CBBF675C32 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ESPubNub;
+			packageProductDependencies = (
+				262F00CA2668D58900FAF06F /* PubNub */,
+			);
 			productName = ESPubNub;
 			productReference = 262F00AC2668D3F600FAF06F /* ESPubNub.app */;
 			productType = "com.apple.product-type.application";
@@ -110,6 +141,9 @@
 				Base,
 			);
 			mainGroup = 262F00A32668D3F600FAF06F;
+			packageReferences = (
+				262F00C92668D58900FAF06F /* XCRemoteSwiftPackageReference "swift" */,
+			);
 			productRefGroup = 262F00AD2668D3F600FAF06F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -131,6 +165,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BBEFBB8E2B47A6CBBF675C32 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESPubNub/Pods-ESPubNub-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESPubNub/Pods-ESPubNub-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESPubNub/Pods-ESPubNub-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CBE4D3AA08139C85FCC73F94 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ESPubNub-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		262F00A82668D3F600FAF06F /* Sources */ = {
@@ -283,12 +359,14 @@
 		};
 		262F00C12668D3F700FAF06F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71DC489BD2DF0CE5387100B4 /* Pods-ESPubNub.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9875BH6JL2;
 				INFOPLIST_FILE = ESPubNub/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,12 +380,14 @@
 		};
 		262F00C22668D3F700FAF06F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B8369E1B0C37BCE57E364EA9 /* Pods-ESPubNub.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9875BH6JL2;
 				INFOPLIST_FILE = ESPubNub/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -341,6 +421,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		262F00C92668D58900FAF06F /* XCRemoteSwiftPackageReference "swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pubnub/swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		262F00CA2668D58900FAF06F /* PubNub */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 262F00C92668D58900FAF06F /* XCRemoteSwiftPackageReference "swift" */;
+			productName = PubNub;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 262F00A42668D3F600FAF06F /* Project object */;
 }
