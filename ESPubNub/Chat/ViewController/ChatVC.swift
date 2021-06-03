@@ -191,7 +191,7 @@ class ChatVC: BaseVC {
     @objc private func sendMessage() {
         let timestamp: Double = Date().timeIntervalSince1970
         let timestampString: String = String(format: "%f", timestamp)
-        pubNub.publish(channel: "channel_2", message: ["text": "channel 2 message new", "timestamp": timestampString, "fromID": myID, "toID": "someID"] ) { result in
+        pubNub.publish(channel: model.channelID, message: ["text": messageTextView.text, "timestamp": timestampString, "fromID": myID, "toID": "someID"] ) { result in
             switch result {
             case let .success(response):
                 print("succeeded: \(response.description)")

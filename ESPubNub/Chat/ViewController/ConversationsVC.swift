@@ -76,7 +76,8 @@ class ConversationsVC: BaseVC {
                         let timestamp = $0.payload[rawValue: "timestamp"] as? String
                         let timestampDouble = Double(timestamp ?? "0")
                         let message = $0.payload[rawValue: "text"] as? String
-                        self.conversations.append(ConversationData.Conversation.init(lastMessage: Message(formID: formID, message: message, toID: toID, timestamp: timestampDouble)))
+                        let channel = $0.channel
+                        self.conversations.append(ConversationData.Conversation.init(lastMessage: Message(formID: formID, message: message, toID: toID, timestamp: timestampDouble, channel: channel)))
                     }
                     
                     DispatchQueue.main.async { [weak self] in
@@ -88,13 +89,13 @@ class ConversationsVC: BaseVC {
     }
     
     private func showChat(by index: Int) {
-//        let conversation = conversations[index]
-//
+        let conversation = conversations[index]
+
 //        let pairID = conversation.user?.userID ?? ""
-//
-//        let model = ChatVC.ChatInitModel(partnerID: pairID, autoID: nil, path: nil)
-//        let vc = ChatVC(model: model)
-//        self.navigationController?.pushViewController(vc, animated: true)
+
+        let model = ChatVC.ChatInitModel(partnerID: "someID", channelID: conversation.lastMessage?.channel ?? "")
+        let vc = ChatVC(model: model)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     //TODO; delete
     private func sendMessage() {

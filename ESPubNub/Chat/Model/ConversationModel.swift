@@ -22,4 +22,5 @@ struct Message {
     let message: String?
     let toID: String?
     let timestamp: Double?
+    let channel: String
 }
