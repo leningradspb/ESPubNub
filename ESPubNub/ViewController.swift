@@ -28,11 +28,13 @@ class ViewController: UIViewController {
             print(result)
         }
         
+        pubNub.subscribe(to: ["my_channel"])
+        
         setupMessageListener()
         
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            self.sendMessage()
-//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.sendMessage()
+        }
 //        setupPubNubConfig()
     }
     
@@ -80,6 +82,10 @@ class ViewController: UIViewController {
             }
         }
     }
-
+    
+    deinit {
+        pubNub.unsubscribeAll()
+    }
 }
+
 
