@@ -9,7 +9,7 @@ class ConversationCell: UITableViewCell {
     private let lastMessageLabel = UILabel()
     private let messageDateLabel = UILabel()
     private let isReadView = UIView()
-    private let isRedBackground = UIView()
+    private let redBackground = UIView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -25,7 +25,6 @@ class ConversationCell: UITableViewCell {
         lastMessageLabel.text = nil
         messageDateLabel.text = nil
         profileImageView.image = nil
-//        isRedBackground.isHidden = true
     }
     
     private func setupUI() {
@@ -69,13 +68,12 @@ class ConversationCell: UITableViewCell {
             $0.trailing.lessThanOrEqualTo(messageDateLabel.snp.leading).offset(-5)
         }
         
-        
         // MARK: - isReadView
-        isRedBackground.backgroundColor = .clear
-        isRedBackground.addSubview(isReadView)
-        messageStack.addArranged(subviews: [lastMessageLabel, isRedBackground])
+        redBackground.backgroundColor = .clear
+        redBackground.addSubview(isReadView)
+        messageStack.addArranged(subviews: [lastMessageLabel, redBackground])
         
-        isRedBackground.snp.makeConstraints {
+        redBackground.snp.makeConstraints {
             $0.width.equalTo(10)
         }
         
@@ -93,7 +91,6 @@ class ConversationCell: UITableViewCell {
         isReadView.layer.cornerRadius = 5
         
         // MARK: - lastMessageLabel
-//        lastMessageLabel.text = "asfjal sagasg sagasg q  1! g sagasg q  1! gasg q  1! g sagasg q  1!"
         lastMessageLabel.numberOfLines = 2
         lastMessageLabel.lineBreakMode = .byTruncatingTail
         lastMessageLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
@@ -119,12 +116,12 @@ class ConversationCell: UITableViewCell {
             let isYesterday = Calendar.current.isDateInYesterday(timestampDate)
             
             if isToday {
-                messageDateLabel.text = "Сегодня"
+                messageDateLabel.text = "Today"
             } else if isYesterday {
-                messageDateLabel.text = "Вчера"
+                messageDateLabel.text = "Yesterday"
             } else {
                 let dateFormatter = DateFormatter()
-                dateFormatter.locale = Locale(identifier: "ru_RU")
+//                dateFormatter.locale = Locale(identifier: "ru_RU")
                 dateFormatter.dateFormat = "dd MMM, hh:mm"
                 messageDateLabel.text = dateFormatter.string(from: timestampDate)
             }
