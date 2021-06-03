@@ -4,7 +4,6 @@ import PubNub
 
 class ConversationsVC: BaseVC {
     private let tableView = UITableView()
-//    private var messages: [MessagesWithInterlocutor]?
     private var conversations: [ConversationData.Conversation] = []
     
     override func viewDidLoad() {
@@ -20,8 +19,7 @@ class ConversationsVC: BaseVC {
     }
     
     private func setupNavigationBar() {
-        //        guard let navBar = navigationController?.navigationBar else { return }
-        navigationItem.title = "Чаты"
+        navigationItem.title = "Chats"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
     }
@@ -30,8 +28,6 @@ class ConversationsVC: BaseVC {
         view.backgroundColor = .black
         tableView.backgroundColor = .black
         tableView.separatorStyle = .none
-        //        tableView.separatorInset = UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 40)
-        //        tableView.separatorColor = UIColor.white.withAlphaComponent(0.4)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ConversationCell.self, forCellReuseIdentifier: ConversationCell.identifier)
@@ -74,14 +70,13 @@ class ConversationsVC: BaseVC {
                     
                     $0.forEach {
                         print($0.payload)
-                        print($0.payload[rawValue: "text"])
+                        
                         let formID = $0.payload[rawValue: "formID"] as? String
                         let toID = $0.payload[rawValue: "toID"] as? String
                         let timestamp = $0.payload[rawValue: "timestamp"] as? String
                         let timestampDouble = Double(timestamp ?? "0")
                         let message = $0.payload[rawValue: "text"] as? String
                         self.conversations.append(ConversationData.Conversation.init(lastMessage: Message(formID: formID, message: message, toID: toID, timestamp: timestampDouble)))
-//                        COdableStruct(from: $0.payload)
                     }
                     
                     DispatchQueue.main.async { [weak self] in

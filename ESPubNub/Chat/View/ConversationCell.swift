@@ -102,6 +102,7 @@ class ConversationCell: UITableViewCell {
     }
     
     func updateConversationCell(with model: ConversationData.Conversation) {
+        // TODO: from back end
         nameLabel.text = "Nick Name"
         lastMessageLabel.text = model.lastMessage?.message
 //        print("last = \(model)")
@@ -109,6 +110,8 @@ class ConversationCell: UITableViewCell {
 //        if let urlString = model.user?.userImageURL, let url = URL(string: urlString) {
 //            profileImageView.kf.setImage(with: url)
 //        }
+        // TODO: from back end
+        profileImageView.image = UIImage(named: "guy")
         
         if let seconds = model.lastMessage?.timestamp {
             let timestampDate = Date(timeIntervalSince1970: TimeInterval(seconds))
