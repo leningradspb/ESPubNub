@@ -11,7 +11,6 @@ class ConversationsVC: BaseVC {
         
         setupNavigationBar()
         setupTableView()
-        observeConversations()
         loadConversations()
         setupMessageListener()
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -38,10 +37,6 @@ class ConversationsVC: BaseVC {
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    private func observeConversations() {
-      
     }
     
     private func loadConversations() {
@@ -85,7 +80,7 @@ class ConversationsVC: BaseVC {
             } else {
                 self.conversations.append(ConversationData.Conversation(lastMessage: newMessage))
             }
-            self.tableView.reloadData()
+            self.sortedConversations()
           case let .connectionStatusChanged(status):
             print("Status Received: \(status)")
           case let .presenceChanged(presence):
@@ -99,6 +94,20 @@ class ConversationsVC: BaseVC {
 
         // Start receiving subscription events
         pubNub.add(listener)
+    }
+    
+    private func sortedConversations() {
+        self.conversations = conversations.sorted { (m1, m2) -> Bool in
+            if let t1 = m1.lastMessage?.timestamp, let t2 = m2.lastMessage?.timestamp {
+                return t1 > t2
+            } else {
+                return false
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     private func loadLastMessageBy(chatIDs: [String]) {
@@ -120,9 +129,7 @@ class ConversationsVC: BaseVC {
                         self.conversations.append(ConversationData.Conversation.init(lastMessage: Message(fromID: fromID, message: message, toID: toID, timestamp: timestampDouble, channel: channel)))
                     }
                     
-                    DispatchQueue.main.async { [weak self] in
-                        self?.tableView.reloadData()
-                    }
+                    self.sortedConversations()
                 }
             }
         }
