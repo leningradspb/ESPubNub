@@ -16,6 +16,8 @@
 		262F00B92668D3F700FAF06F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 262F00B82668D3F700FAF06F /* Assets.xcassets */; };
 		262F00BC2668D3F700FAF06F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 262F00BA2668D3F700FAF06F /* LaunchScreen.storyboard */; };
 		262F00CB2668D58900FAF06F /* PubNub in Frameworks */ = {isa = PBXBuildFile; productRef = 262F00CA2668D58900FAF06F /* PubNub */; };
+		26CAFCDA26691AF0006F1AB8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CAFCD926691AF0006F1AB8 /* Extensions.swift */; };
+		26CAFCDE26691B01006F1AB8 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CAFCDD26691B01006F1AB8 /* BaseVC.swift */; };
 		4F37492AA60AB06E28E4AA95 /* Pods_ESPubNub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA45473A6BF7764A56C6F32F /* Pods_ESPubNub.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +32,8 @@
 		262F00B82668D3F700FAF06F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		262F00BB2668D3F700FAF06F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		262F00BD2668D3F700FAF06F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		26CAFCD926691AF0006F1AB8 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		26CAFCDD26691B01006F1AB8 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		71DC489BD2DF0CE5387100B4 /* Pods-ESPubNub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESPubNub.debug.xcconfig"; path = "Target Support Files/Pods-ESPubNub/Pods-ESPubNub.debug.xcconfig"; sourceTree = "<group>"; };
 		B8369E1B0C37BCE57E364EA9 /* Pods-ESPubNub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESPubNub.release.xcconfig"; path = "Target Support Files/Pods-ESPubNub/Pods-ESPubNub.release.xcconfig"; sourceTree = "<group>"; };
 		EA45473A6BF7764A56C6F32F /* Pods_ESPubNub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESPubNub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +106,7 @@
 		262F00AE2668D3F600FAF06F /* ESPubNub */ = {
 			isa = PBXGroup;
 			children = (
+				26CAFCD826691AE6006F1AB8 /* Extensions */,
 				261A5A3826690C83005E16A2 /* Chat */,
 				262F00AF2668D3F600FAF06F /* AppDelegate.swift */,
 				262F00B12668D3F600FAF06F /* SceneDelegate.swift */,
@@ -112,6 +117,15 @@
 				262F00BD2668D3F700FAF06F /* Info.plist */,
 			);
 			path = ESPubNub;
+			sourceTree = "<group>";
+		};
+		26CAFCD826691AE6006F1AB8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				26CAFCD926691AF0006F1AB8 /* Extensions.swift */,
+				26CAFCDD26691B01006F1AB8 /* BaseVC.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		3BA704B9D1891B65A2EC1051 /* Pods */ = {
@@ -252,9 +266,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				262F00B42668D3F600FAF06F /* ViewController.swift in Sources */,
+				26CAFCDA26691AF0006F1AB8 /* Extensions.swift in Sources */,
 				262F00B02668D3F600FAF06F /* AppDelegate.swift in Sources */,
 				262F00B22668D3F600FAF06F /* SceneDelegate.swift in Sources */,
 				261A5A3D26690CA7005E16A2 /* ConversationsVC.swift in Sources */,
+				26CAFCDE26691B01006F1AB8 /* BaseVC.swift in Sources */,
 				261A5A4026690CC8005E16A2 /* ConversationCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
