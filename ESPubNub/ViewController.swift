@@ -21,6 +21,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         setupMessageListener()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.sendMessage()
+        }
 //        setupPubNubConfig()
     }
     
@@ -52,6 +56,19 @@ class ViewController: UIViewController {
 
         // Start receiving subscription events
         pubNub.add(listener)
+    }
+    
+    private func sendMessage() {
+        
+        pubNub.publish(channel: "my_channel", message: ["text": "Hello World!"] ){ result in
+            switch result {
+            case let .success(response):
+                print("succeeded: \(response)")
+                
+            case let .failure(error):
+                print("failed: \(error.localizedDescription)")
+            }
+        }
     }
 
 }
